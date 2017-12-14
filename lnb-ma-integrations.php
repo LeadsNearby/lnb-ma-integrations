@@ -28,8 +28,14 @@ class LNB_MA_Integrations {
         add_action( 'wp_enqueue_scripts', array( $this, 'register_the_scripts' ) );
         add_action( 'admin_menu', array($this , 'add_menupage') );
         add_action( 'wp_ajax_number_click', array( $this , 'prefix_ajax_number_click' ) );
+		add_action( 'plugins_loaded', [ $this, 'update' ] );
         
     }
+	
+	function update() {
+		require_once( plugin_dir_path( __FILE__ ).'/lib/updater/github-updater.php' );
+		new GitHubPluginUpdater( __FILE__, 'LeadsNearby', 'lnb-ma-integrations' );
+	}
     
     function register_the_scripts() {
         wp_enqueue_script( 'jquery' );
